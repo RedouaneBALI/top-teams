@@ -1,7 +1,7 @@
 package io.github.redouanebali.topteams.service;
 
-import io.github.redouanebali.topteams.model.Player.Player;
-import io.github.redouanebali.topteams.model.Player.PlayerDataLoader;
+import io.github.redouanebali.topteams.model.player.Player;
+import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
 import java.io.IOException;
 import java.util.List;
 

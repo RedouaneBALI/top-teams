@@ -2,14 +2,15 @@ package io.github.redouanebali.topteams;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.github.redouanebali.topteams.model.Player.DetailedPlayer;
-import io.github.redouanebali.topteams.model.Player.Player;
-import io.github.redouanebali.topteams.model.Player.PlayerCharacteristics;
-import io.github.redouanebali.topteams.model.Player.PlayerDataLoader;
-import io.github.redouanebali.topteams.model.Player.SimplePlayer;
+import io.github.redouanebali.topteams.model.player.DetailedPlayer;
+import io.github.redouanebali.topteams.model.player.Player;
+import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
+import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
+import io.github.redouanebali.topteams.model.player.SimplePlayer;
 import io.github.redouanebali.topteams.service.PlayerService;
 import java.io.IOException;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class PlayerTests {
   public void testDeserializeSimplePlayer() throws IOException {
     SimplePlayer player = PLAYER_SERVICE.loadPlayer("/simple-player.json", SimplePlayer.class);
     assertNotNull(player.getId());
-    assertTrue(player.getRating() > 0);
+    assertTrue(player.getRating() > 50);
   }
 
   @Test
@@ -33,13 +34,12 @@ public class PlayerTests {
     assertNotNull(player.getCharacteristics());
     assertFalse(player.getCharacteristics().isEmpty());
     for (PlayerCharacteristics characteristics : PlayerCharacteristics.values()) {
-      assertTrue(player.getCharacteristics().get(characteristics) > 0);
+      assertTrue(player.getCharacteristics().get(characteristics) > 50);
     }
-
   }
 
   @Test
-  public void testGetRating() {
+  public void testGetDetailedPlayerRating() {
     Player player = new DetailedPlayer("Player1", Map.of(
         PlayerCharacteristics.pace, 50.0,
         PlayerCharacteristics.defending, 55.0,
@@ -49,5 +49,15 @@ public class PlayerTests {
         PlayerCharacteristics.shooting, 60.0
     ));
     assertEquals(60.0, player.getRating());
+  }
+
+  @Test
+  public void testEquals() {
+    Player playerA  = new SimplePlayer("PlayerA", 50);
+    Player playerA2 = new SimplePlayer("PlayerA", 60);
+    Player playerB  = new SimplePlayer("PlayerB", 60);
+    assertEquals(playerA, playerA2);
+    assertNotEquals(playerA, playerB);
+    assertNotEquals(playerA2, playerB);
   }
 }

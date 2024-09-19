@@ -1,4 +1,4 @@
-package io.github.redouanebali.topteams.model.Player;
+package io.github.redouanebali.topteams.model.player;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

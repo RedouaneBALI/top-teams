@@ -9,5 +9,49 @@
       "defending": 60,
       "physical": 50
     }
+  },
+  {
+    "id": "playerB",
+    "characteristics": {
+      "pace": 60,
+      "shooting": 60,
+      "passing": 60,
+      "dribbling": 60,
+      "defending": 60,
+      "physical": 60
+    }
+  },
+  {
+    "id": "playerC",
+    "characteristics": {
+      "pace": 70,
+      "shooting": 70,
+      "passing": 70,
+      "dribbling": 70,
+      "defending": 70,
+      "physical": 70
+    }
+  },
+  {
+    "id": "playerD",
+    "characteristics": {
+      "pace": 70,
+      "shooting": 70,
+      "passing": 70,
+      "dribbling": 70,
+      "defending": 70,
+      "physical": 70
+    }
+  },
+  {
+    "id": "playerE",
+    "characteristics": {
+      "pace": 65,
+      "shooting": 65,
+      "passing": 65,
+      "dribbling": 65,
+      "defending": 65,
+      "physical": 65
+    }
   }
 ]

@@ -1,4 +1,4 @@
-package io.github.redouanebali.topteams.model.Player;
+package io.github.redouanebali.topteams.model.player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ public class DetailedPlayer extends Player {
 
   @Getter
   private Map<PlayerCharacteristics, Double> characteristics = new HashMap<>();
-  
+
   public DetailedPlayer(String id, Map<PlayerCharacteristics, Double> characteristics) {
     super(id);
     this.characteristics = characteristics;
@@ -24,4 +24,5 @@ public class DetailedPlayer extends Player {
   public double getRating() {
     return characteristics.values().stream().mapToDouble(Double::doubleValue).average().orElse(0);
   }
+
 }
