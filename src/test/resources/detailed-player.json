@@ -1,0 +1,11 @@
+{
+  "id": "playerA",
+  "characteristics": {
+    "pace": 90,
+    "shooting": 80,
+    "passing": 85,
+    "dribbling": 78,
+    "defending": 70,
+    "physical": 88
+  }
+}

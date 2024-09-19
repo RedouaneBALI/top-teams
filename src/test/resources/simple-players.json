@@ -1,0 +1,22 @@
+[
+  {
+    "id": "playerA",
+    "rating": 50
+  },
+  {
+    "id": "playerB",
+    "rating": 60
+  },
+  {
+    "id": "playerC",
+    "rating": 70
+  },
+  {
+    "id": "playerD",
+    "rating": 80
+  },
+  {
+    "id": "playerE",
+    "rating": 90
+  }
+]
