@@ -66,9 +66,11 @@ public class Composition implements Comparable<Composition> {
             .filter(ps -> this.getTeamA().getRating(ps) > 0 && this.getTeamB().getRating(ps) > 0)
             .map(ps -> this.getTeamA().getRating(ps) - this.getTeamB().getRating(ps))
             .forEach(stats::addValue);
-      return BigDecimal.valueOf(stats.getStandardDeviation())
-                       .setScale(1, RoundingMode.HALF_UP)
-                       .doubleValue();
+      if (!Double.isNaN(stats.getStandardDeviation())) {
+        return BigDecimal.valueOf(stats.getStandardDeviation())
+                         .setScale(1, RoundingMode.HALF_UP)
+                         .doubleValue();
+      }
     }
     return 0.0;
   }

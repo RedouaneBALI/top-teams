@@ -14,7 +14,7 @@ public class DetailedPlayer extends Player {
   private Map<PlayerCharacteristics, Double> characteristics = new HashMap<>();
 
   public DetailedPlayer(String id, Map<PlayerCharacteristics, Double> characteristics) {
-    super(id);
+    super(id, 0.0);
     this.characteristics = characteristics;
   }
 

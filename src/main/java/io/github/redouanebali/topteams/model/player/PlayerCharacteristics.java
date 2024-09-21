@@ -1,6 +1,7 @@
 package io.github.redouanebali.topteams.model.player;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 public enum PlayerCharacteristics {
@@ -12,5 +13,6 @@ public enum PlayerCharacteristics {
   defending("DEF"),
   physical("PHY");
 
+  @Getter
   private String name;
 }

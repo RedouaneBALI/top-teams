@@ -4,7 +4,6 @@ import io.github.redouanebali.topteams.exception.CompositionException;
 import io.github.redouanebali.topteams.model.game.Composition;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
-import io.github.redouanebali.topteams.model.player.SimplePlayer;
 import io.github.redouanebali.topteams.service.CompositionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -92,7 +91,7 @@ public class CompositionController {
   @PostMapping("/best-simple")
   public Composition getBestSimpleComposition(
       @RequestBody(description = "List of simple players", required = true,
-                   content = @Content(schema = @Schema(implementation = SimplePlayer.class),
+                   content = @Content(schema = @Schema(implementation = Player.class),
                                       examples = {@io.swagger.v3.oas.annotations.media.ExampleObject(
                                           value = "[\n"
                                                   + "  {\n"
@@ -113,7 +112,7 @@ public class CompositionController {
                                                   + "  }\n"
                                                   + "]"
                                       )}))
-      @org.springframework.web.bind.annotation.RequestBody List<SimplePlayer> players) {
+      @org.springframework.web.bind.annotation.RequestBody List<Player> players) {
     checkPlayersBody(players);
     return compositionService.getBestComposition(players);
   }

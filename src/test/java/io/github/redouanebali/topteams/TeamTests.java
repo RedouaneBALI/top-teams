@@ -7,7 +7,6 @@ import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
 import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
-import io.github.redouanebali.topteams.model.player.SimplePlayer;
 import io.github.redouanebali.topteams.model.team.Team;
 import io.github.redouanebali.topteams.service.PlayerService;
 import java.io.IOException;
@@ -20,8 +19,8 @@ public class TeamTests {
 
   @Test
   public void getSimpleTeamRatingTest() throws IOException {
-    List<SimplePlayer> players = PLAYER_SERVICE.loadPlayers("/simple-players.json", SimplePlayer.class);
-    Team               team    = new Team(players);
+    List<Player> players = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
+    Team         team    = new Team(players);
     assertEquals(5, team.getPlayers().size());
     assertEquals(70, team.getRating());
   }
@@ -47,10 +46,10 @@ public class TeamTests {
 
   @Test
   public void testEquals() {
-    Player playerA1 = new SimplePlayer("PlayerA", 50);
-    Player playerA2 = new SimplePlayer("PlayerA2", 60);
-    Player playerA3 = new SimplePlayer("PlayerA3", 60);
-    Player playerB1 = new SimplePlayer("PlayerB1", 60);
+    Player playerA1 = new Player("PlayerA", 50);
+    Player playerA2 = new Player("PlayerA2", 60);
+    Player playerA3 = new Player("PlayerA3", 60);
+    Player playerB1 = new Player("PlayerB1", 60);
 
     Team team1 = new Team(playerA1, playerA2, playerA3);
     Team team2 = new Team(playerA1, playerA2, playerA3);

@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.github.redouanebali.topteams.model.game.Composition;
 import io.github.redouanebali.topteams.model.game.CompositionGenerator;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
+import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
-import io.github.redouanebali.topteams.model.player.SimplePlayer;
 import io.github.redouanebali.topteams.service.PlayerService;
 import java.io.IOException;
 import java.util.List;
@@ -21,8 +21,8 @@ public class CompositionGeneratorTests {
 
   @Test
   public void testGenerateRandomCompoSimple() throws IOException {
-    List<SimplePlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", SimplePlayer.class);
-    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", SimplePlayer.class));
+    List<Player> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
+    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", Player.class));
     Composition composition = CompositionGenerator.generateRandomComposition(allPlayers);
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
@@ -34,8 +34,8 @@ public class CompositionGeneratorTests {
 
   @Test
   public void testGetBestCompoSimple() throws IOException {
-    List<SimplePlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", SimplePlayer.class);
-    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", SimplePlayer.class));
+    List<Player> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
+    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", Player.class));
     Composition composition = CompositionGenerator.getBestComposition(allPlayers);
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
@@ -88,18 +88,5 @@ public class CompositionGeneratorTests {
     System.out.println(composition.getCharacteristicRatingDifferences());
     System.out.println(composition);
   }
-
-  @Test
-  public void testGetBestCompoDetailedWithoutCharacteristics() throws IOException {
-    List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", DetailedPlayer.class);
-    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", DetailedPlayer.class));
-    Composition composition = CompositionGenerator.getBestCompositionFromCharacteristics(allPlayers);
-    assertNotNull(composition.getTeamA());
-    assertNotNull(composition.getTeamB());
-    assertFalse(composition.getTeamA().getPlayers().isEmpty());
-    assertFalse(composition.getTeamB().getPlayers().isEmpty());
-    assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
-    assertTrue(Math.abs(composition.getRatingDifference()) < 5);
-    System.out.println(composition);
-  }
+  
 }

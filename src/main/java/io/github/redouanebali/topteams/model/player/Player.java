@@ -1,5 +1,7 @@
 package io.github.redouanebali.topteams.model.player;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -9,11 +11,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Player implements Comparable<Player> {
+public class Player implements Comparable<Player> {
 
   private String id;
+  private double rating = 0.0;
 
-  public abstract double getRating();
+  public double getRating() {
+    return BigDecimal.valueOf(rating)
+                     .setScale(1, RoundingMode.HALF_UP)
+                     .doubleValue();
+  }
 
   @Override
   public boolean equals(Object o) {
