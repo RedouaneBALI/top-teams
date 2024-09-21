@@ -1,5 +1,6 @@
 package io.github.redouanebali.topteams.model.player;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,10 +37,10 @@ public abstract class Player implements Comparable<Player> {
   public int compareTo(Player other) {
     return Double.compare(this.getRating(), other.getRating());
   }
-  
+
   @Override
   public String toString() {
-    return this.id + " (" + this.getRating() + ")";
+    return this.id + " (" + new DecimalFormat("##.#").format(this.getRating()) + ")";
   }
 
 }

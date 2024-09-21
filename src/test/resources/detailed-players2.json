@@ -1,0 +1,57 @@
+[
+  {
+    "id": "playerF",
+    "characteristics": {
+      "pace": 80,
+      "shooting": 75,
+      "passing": 70,
+      "dribbling": 70,
+      "defending": 60,
+      "physical": 55
+    }
+  },
+  {
+    "id": "playerG",
+    "characteristics": {
+      "pace": 70,
+      "shooting": 50,
+      "passing": 60,
+      "dribbling": 65,
+      "defending": 75,
+      "physical": 60
+    }
+  },
+  {
+    "id": "playerH",
+    "characteristics": {
+      "pace": 70,
+      "shooting": 70,
+      "passing": 60,
+      "dribbling": 50,
+      "defending": 70,
+      "physical": 80
+    }
+  },
+  {
+    "id": "playerI",
+    "characteristics": {
+      "pace": 70,
+      "shooting": 70,
+      "passing": 75,
+      "dribbling": 65,
+      "defending": 70,
+      "physical": 70
+    }
+  },
+  {
+    "id": "playerJ",
+    "characteristics": {
+      "pace": 60,
+      "shooting": 65,
+      "passing": 70,
+      "dribbling": 65,
+      "defending": 80,
+      "physical": 65
+    }
+  }
+]

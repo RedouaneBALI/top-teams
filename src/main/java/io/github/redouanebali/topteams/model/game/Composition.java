@@ -30,12 +30,12 @@ public class Composition implements Comparable<Composition> {
     StringBuilder s        = new StringBuilder();
     List<Player>  playersA = new ArrayList<>(this.getTeamA().getPlayers());
     playersA.sort(Collections.reverseOrder());
-    s.append("TEAM A [").append(new DecimalFormat("##.##").format(this.getTeamA().getRating())).append("]\n");
+    s.append("TEAM A [").append(new DecimalFormat("##.#").format(this.getTeamA().getRating())).append("]\n");
     for (Player p : playersA) {
       s.append("- ").append(p).append("\n");
     }
     s.append("[VS]\n");
-    s.append("TEAM B [").append(new DecimalFormat("##.##").format(this.getTeamB().getRating())).append("]\n");
+    s.append("TEAM B [").append(new DecimalFormat("##.#").format(this.getTeamB().getRating())).append("]\n");
     List<Player> playersB = new ArrayList<>(this.getTeamB().getPlayers());
     playersB.sort(Collections.reverseOrder());
     for (Player p : playersB) {
