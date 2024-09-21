@@ -12,14 +12,14 @@ import lombok.Getter;
 public class Team {
 
   @Getter
-  List<Player> players;
+  private final Set<Player> players;
 
   public Team(Player... players) {
-    this.players = List.of(players);
+    this.players = new HashSet<>(Set.of(players));
   }
 
   public <T extends Player> Team(List<T> players) {
-    this.players = List.of(players.toArray(Player[]::new));
+    this.players = new HashSet<>(Set.of(players.toArray(Player[]::new)));
   }
 
   public double getRating() {
@@ -27,7 +27,18 @@ public class Team {
   }
 
   public double getRating(PlayerCharacteristics characteristics) {
-    return players.stream().map(p -> (DetailedPlayer) p).mapToDouble(p -> p.getCharacteristics().get(characteristics)).average().orElse(0.0);
+    if (this.isDetailedPlayersTeam()) {
+      return players.stream()
+                    .map(p -> (DetailedPlayer) p)
+                    .mapToDouble(p -> p.getCharacteristics().getOrDefault(characteristics, 0.0))
+                    .average()
+                    .orElse(0.0);
+    }
+    return 0.0;
+  }
+
+  public boolean isDetailedPlayersTeam() {
+    return players.stream().allMatch(p -> p instanceof DetailedPlayer);
   }
 
   @Override
@@ -38,8 +49,7 @@ public class Team {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Team team = (Team) o;
-    // Convertir les listes de joueurs en ensembles pour une comparaison plus efficace
+    Team        team         = (Team) o;
     Set<Player> thisPlayers  = new HashSet<>(this.players);
     Set<Player> otherPlayers = new HashSet<>(team.players);
     return Objects.equals(thisPlayers, otherPlayers);
@@ -58,5 +68,9 @@ public class Team {
       result += " ";
     }
     return result;
+  }
+
+  public void addPlayer(Player player) {
+    this.players.add(player);
   }
 }

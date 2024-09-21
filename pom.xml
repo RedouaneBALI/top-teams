@@ -21,10 +21,6 @@
   </build>
   <dependencies>
     <dependency>
-      <artifactId>spring-boot-starter</artifactId>
-      <groupId>org.springframework.boot</groupId>
-    </dependency>
-    <dependency>
       <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
@@ -34,35 +30,23 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <groupId>org.springdoc</groupId>
+      <version>2.3.0</version>
+    </dependency>
+    <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
       <groupId>org.springframework.boot</groupId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <artifactId>spring-web</artifactId>
-      <groupId>org.springframework</groupId>
-      <version>6.1.13</version>
-    </dependency>
-
-    <dependency>
-      <artifactId>jackson-core</artifactId>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <version>2.17.2</version>
-    </dependency>
-    <dependency>
-      <artifactId>jackson-databind</artifactId>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <version>2.15.2</version>
+      <artifactId>commons-math3</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <version>3.6.1</version>
     </dependency>
   </dependencies>
   <description>Top Teams</description>
-  <developers>
-    <developer/>
-  </developers>
   <groupId>io.github.redouanebali.topteams</groupId>
-  <licenses>
-    <license/>
-  </licenses>
   <modelVersion>4.0.0</modelVersion>
   <name>top-teams</name>
   <parent>
@@ -74,14 +58,6 @@
   <properties>
     <java.version>21</java.version>
   </properties>
-  <scm>
-    <connection/>
-    <developerConnection/>
-    <tag/>
-    <url/>
-  </scm>
-  <url/>
 
   <version>0.0.1-SNAPSHOT</version>
-
 </project>

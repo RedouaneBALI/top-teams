@@ -2,18 +2,15 @@ package io.github.redouanebali.topteams.model.game;
 
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
-import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
 import io.github.redouanebali.topteams.model.team.Team;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class CompositionGenerator {
-
-  private static final int NB_TRY = 1000;
 
   public static Composition generateRandomComposition(List<? extends Player> players) {
     if (players.size() % 2 != 0) {
@@ -28,41 +25,40 @@ public class CompositionGenerator {
 
   public static Composition getBestComposition(List<? extends Player> players) {
     List<Composition> compositions = new ArrayList<>();
-    for (int i = 0; i < NB_TRY; i++) {
-      compositions.add(generateRandomComposition(players));
+    long              nbTry        = getNbPossibleCombinations(players.size());
+    for (int i = 0; i < nbTry; i++) {
+      Composition randomComposition = generateRandomComposition(players);
+      if (!compositions.contains(randomComposition)) {
+        compositions.add(randomComposition);
+      }
     }
     Collections.sort(compositions);
     return compositions.getFirst();
   }
 
   public static Composition getBestCompositionFromCharacteristics(List<DetailedPlayer> players) {
-    List<Composition> compositions = new ArrayList<>();
-
-    for (int i = 0; i < NB_TRY; i++) {
-      Composition composition = generateRandomComposition(players);
-      compositions.add(composition);
+    List<Composition> compositions           = new ArrayList<>();
+    long              nbPossibleCombinations = getNbPossibleCombinations(players.size());
+    int               i                      = 0;
+    while (i < nbPossibleCombinations / 2) {
+      Composition randomComposition = generateRandomComposition(players);
+      if (!compositions.contains(randomComposition)) {
+        compositions.add(randomComposition);
+        i++;
+      }
     }
-
+    // priority by standard deviation + rating difference
     return compositions.stream()
-                       .min(Comparator.comparingDouble(CompositionGenerator::getCharacteristicStandardDeviation))
+                       .min(Comparator.comparingDouble(c -> Math.abs(c.getCharacteristicStandardDeviation()) + Math.abs(c.getRatingDifference())))
                        .orElseThrow(() -> new IllegalStateException("No compositions generated"));
   }
 
-  public static double getCharacteristicStandardDeviation(Composition composition) {
-    List<Double> differences = Arrays.stream(PlayerCharacteristics.values())
-                                     .map(playerCharacteristics ->
-                                              composition.getTeamA().getRating(playerCharacteristics) -
-                                              composition.getTeamB().getRating(playerCharacteristics))
-                                     .toList();
-
-    double mean = differences.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-
-    double variance = differences.stream()
-                                 .mapToDouble(diff -> Math.pow(diff - mean, 2))
-                                 .average().orElse(0.0);
-
-    // Retourner l'écart type
-    return Math.sqrt(variance);
+  public static long getNbPossibleCombinations(int N) {
+    if (N % 2 != 0) {
+      throw new IllegalArgumentException("player count should be even.");
+    }
+    long binomialCoefficient = CombinatoricsUtils.binomialCoefficient(N, N / 2);
+    return binomialCoefficient / 2;
   }
 
 }

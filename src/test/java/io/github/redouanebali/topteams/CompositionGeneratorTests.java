@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.github.redouanebali.topteams.model.game.Composition;
 import io.github.redouanebali.topteams.model.game.CompositionGenerator;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
-import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
 import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
 import io.github.redouanebali.topteams.model.player.SimplePlayer;
 import io.github.redouanebali.topteams.service.PlayerService;
@@ -85,11 +84,8 @@ public class CompositionGeneratorTests {
     assertFalse(composition.getTeamB().getPlayers().isEmpty());
     assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
     assertTrue(Math.abs(composition.getRatingDifference()) < 5);
-    System.out.println("standard deviation = " + CompositionGenerator.getCharacteristicStandardDeviation(composition));
-    for (PlayerCharacteristics characteristics : PlayerCharacteristics.values()) {
-      System.out.println(characteristics + " : "
-                         + (composition.getTeamA().getRating(characteristics) - composition.getTeamB().getRating(characteristics)));
-    }
+    System.out.println("standard deviation = " + composition.getCharacteristicStandardDeviation());
+    System.out.println(composition.getCharacteristicRatingDifference());
     System.out.println(composition);
   }
 }
