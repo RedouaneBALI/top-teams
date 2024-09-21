@@ -1,7 +1,9 @@
 package io.github.redouanebali.topteams.controller;
 
+import io.github.redouanebali.topteams.exception.CompositionException;
 import io.github.redouanebali.topteams.model.game.Composition;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
+import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.model.player.SimplePlayer;
 import io.github.redouanebali.topteams.service.CompositionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +24,7 @@ public class CompositionController {
   @Autowired
   private CompositionService compositionService;
 
-  @Operation(summary = "Return the best found composition",
+  @Operation(summary = "Return the best found composition based on player characteristics and general rating",
              description =
                  "Generate randomly a high number of team compositions and return the best one foundbased on the standard deviation of player "
                  + "characteristics differences and rating average difference")
@@ -80,15 +82,11 @@ public class CompositionController {
                                                   + "]"
                                       )}))
       @org.springframework.web.bind.annotation.RequestBody List<DetailedPlayer> players) {
-    if (players == null || players.isEmpty()) {
-      throw new IllegalArgumentException("player list cannot be empty or null");
-    } else if (players.size() % 2 != 0) {
-      throw new IllegalArgumentException("player count should be even");
-    }
+    checkPlayersBody(players);
     return compositionService.getBestCompositionWithCharacteristics(players);
   }
 
-  @Operation(summary = "Return the best simple composition",
+  @Operation(summary = "Return the best composition based on general rating",
              description = "Generate randomly a high number of compositions and return the best one found based rating average difference.")
   @ApiResponse(responseCode = "200", description = "Best simple composition returned")
   @PostMapping("/best-simple")
@@ -116,6 +114,17 @@ public class CompositionController {
                                                   + "]"
                                       )}))
       @org.springframework.web.bind.annotation.RequestBody List<SimplePlayer> players) {
+    checkPlayersBody(players);
     return compositionService.getBestComposition(players);
+  }
+
+  private void checkPlayersBody(List<? extends Player> players) {
+    if (players == null || players.isEmpty()) {
+      throw new CompositionException("Player list cannot be empty or null");
+    } else if (players.size() % 2 != 0) {
+      throw new CompositionException("Player count should be even");
+    } else if (players.stream().anyMatch(p -> p.getRating() == 0)) {
+      throw new CompositionException("All players must have a rating greater than 0");
+    }
   }
 }

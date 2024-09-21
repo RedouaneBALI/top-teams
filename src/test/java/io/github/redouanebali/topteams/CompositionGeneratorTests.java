@@ -88,4 +88,18 @@ public class CompositionGeneratorTests {
     System.out.println(composition.getCharacteristicRatingDifferences());
     System.out.println(composition);
   }
+
+  @Test
+  public void testGetBestCompoDetailedWithoutCharacteristics() throws IOException {
+    List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", DetailedPlayer.class);
+    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", DetailedPlayer.class));
+    Composition composition = CompositionGenerator.getBestCompositionFromCharacteristics(allPlayers);
+    assertNotNull(composition.getTeamA());
+    assertNotNull(composition.getTeamB());
+    assertFalse(composition.getTeamA().getPlayers().isEmpty());
+    assertFalse(composition.getTeamB().getPlayers().isEmpty());
+    assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
+    assertTrue(Math.abs(composition.getRatingDifference()) < 5);
+    System.out.println(composition);
+  }
 }

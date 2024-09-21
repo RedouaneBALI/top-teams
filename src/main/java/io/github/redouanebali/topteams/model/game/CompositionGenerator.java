@@ -13,9 +13,6 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 public class CompositionGenerator {
 
   public static Composition generateRandomComposition(List<? extends Player> players) {
-    if (players.size() % 2 != 0) {
-      throw new IllegalArgumentException("number of players should be even, not odd");
-    }
     Collections.shuffle(players, new Random());
 
     Team teamA = new Team(players.subList(0, players.size() / 2));
