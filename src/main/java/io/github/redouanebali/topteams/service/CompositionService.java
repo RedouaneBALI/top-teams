@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompositionService {
 
-  public Composition getBestCompositionWithCharacteristics(List<DetailedPlayer> players) {
-    return CompositionGenerator.getBestCompositionFromCharacteristics(players);
+  public Composition getBestCompositionWithStats(List<DetailedPlayer> players) {
+    return CompositionGenerator.getBestCompositionFromStats(players);
   }
 
   public Composition getBestComposition(List<? extends Player> players) {

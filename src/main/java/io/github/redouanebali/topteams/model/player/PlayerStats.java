@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum PlayerCharacteristics {
+public enum PlayerStats {
 
   pace("PAC"),
   shooting("SHO"),

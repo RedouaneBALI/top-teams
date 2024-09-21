@@ -74,19 +74,19 @@ public class CompositionGeneratorTests {
   }
 
   @Test
-  public void testGetBestCompoDetailedWithCharacteristics() throws IOException {
+  public void testGetBestCompoDetailedWithStats() throws IOException {
     List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
-    Composition composition = CompositionGenerator.getBestCompositionFromCharacteristics(allPlayers);
+    Composition composition = CompositionGenerator.getBestCompositionFromStats(allPlayers);
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
     assertFalse(composition.getTeamA().getPlayers().isEmpty());
     assertFalse(composition.getTeamB().getPlayers().isEmpty());
     assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
     assertTrue(Math.abs(composition.getRatingDifference()) < 5);
-    System.out.println("standard deviation = " + composition.getCharacteristicStandardDeviation());
+    System.out.println("standard deviation = " + composition.getStatsStandardDeviation());
     System.out.println(composition.getCharacteristicRatingDifferences());
     System.out.println(composition);
   }
-  
+
 }

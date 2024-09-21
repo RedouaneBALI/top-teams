@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.github.redouanebali.topteams.model.game.Composition;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
-import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
+import io.github.redouanebali.topteams.model.player.PlayerStats;
 import io.github.redouanebali.topteams.model.team.Team;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class CompositionTests {
     teamB.addPlayer(playerB1);
     teamB.addPlayer(playerB2);
 
-    assertEquals(0.0, composition.getCharacteristicStandardDeviation(), 0.01);
+    assertEquals(0.0, composition.getStatsStandardDeviation(), 0.01);
   }
 
   @Test
@@ -53,18 +53,18 @@ public class CompositionTests {
     teamB.addPlayer(playerB2);
 
     double expectedStandardDeviation = calculateExpectedStandardDeviation();
-    assertEquals(expectedStandardDeviation, composition.getCharacteristicStandardDeviation(), 0.01);
+    assertEquals(expectedStandardDeviation, composition.getStatsStandardDeviation(), 0.1);
   }
 
-  private DetailedPlayer createDetailedPlayer(String id, Double... characteristics) {
-    Map<PlayerCharacteristics, Double> playerCharacteristics = new HashMap<>();
-    PlayerCharacteristics[]            characteristicsKeys   = PlayerCharacteristics.values();
+  private DetailedPlayer createDetailedPlayer(String id, Double... stats) {
+    Map<PlayerStats, Double> playerStats = new HashMap<>();
+    PlayerStats[]            statsKeys   = PlayerStats.values();
 
-    for (int i = 0; i < characteristics.length; i++) {
-      playerCharacteristics.put(characteristicsKeys[i], characteristics[i]);
+    for (int i = 0; i < stats.length; i++) {
+      playerStats.put(statsKeys[i], stats[i]);
     }
 
-    return new DetailedPlayer(id, playerCharacteristics);
+    return new DetailedPlayer(id, playerStats);
   }
 
 

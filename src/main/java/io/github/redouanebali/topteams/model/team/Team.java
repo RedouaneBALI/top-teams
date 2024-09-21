@@ -3,7 +3,7 @@ package io.github.redouanebali.topteams.model.team;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
-import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
+import io.github.redouanebali.topteams.model.player.PlayerStats;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashSet;
@@ -31,11 +31,11 @@ public class Team {
                      .doubleValue();
   }
 
-  public double getRating(PlayerCharacteristics characteristics) {
+  public double getRating(PlayerStats stats) {
     if (this.isDetailedPlayersTeam()) {
       return players.stream()
                     .map(p -> (DetailedPlayer) p)
-                    .mapToDouble(p -> p.getCharacteristics().getOrDefault(characteristics, 0.0))
+                    .mapToDouble(p -> p.getStats().getOrDefault(stats, 0.0))
                     .average()
                     .orElse(0.0);
     }

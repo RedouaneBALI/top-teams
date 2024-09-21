@@ -1,7 +1,7 @@
 [
   {
     "id": "playerF",
-    "characteristics": {
+    "stats": {
       "pace": 80,
       "shooting": 75,
       "passing": 70,
@@ -12,7 +12,7 @@
   },
   {
     "id": "playerG",
-    "characteristics": {
+    "stats": {
       "pace": 70,
       "shooting": 50,
       "passing": 60,
@@ -23,7 +23,7 @@
   },
   {
     "id": "playerH",
-    "characteristics": {
+    "stats": {
       "pace": 70,
       "shooting": 70,
       "passing": 60,
@@ -34,7 +34,7 @@
   },
   {
     "id": "playerI",
-    "characteristics": {
+    "stats": {
       "pace": 70,
       "shooting": 70,
       "passing": 75,
@@ -45,7 +45,7 @@
   },
   {
     "id": "playerJ",
-    "characteristics": {
+    "stats": {
       "pace": 60,
       "shooting": 65,
       "passing": 70,

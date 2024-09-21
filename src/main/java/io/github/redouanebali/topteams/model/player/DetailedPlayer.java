@@ -11,20 +11,20 @@ import lombok.NoArgsConstructor;
 public class DetailedPlayer extends Player {
 
   @Getter
-  private Map<PlayerCharacteristics, Double> characteristics = new HashMap<>();
+  private Map<PlayerStats, Double> stats = new HashMap<>();
 
-  public DetailedPlayer(String id, Map<PlayerCharacteristics, Double> characteristics) {
+  public DetailedPlayer(String id, Map<PlayerStats, Double> stats) {
     super(id, 0.0);
-    this.characteristics = characteristics;
+    this.stats = stats;
   }
 
-  public void setCharacteristics(Map<PlayerCharacteristics, Double> characteristics) {
-    this.characteristics = characteristics;
+  public void setStats(Map<PlayerStats, Double> stats) {
+    this.stats = stats;
   }
 
   @Override
   public double getRating() {
-    return BigDecimal.valueOf(characteristics.values().stream().mapToDouble(Double::doubleValue).average().orElse(0))
+    return BigDecimal.valueOf(stats.values().stream().mapToDouble(Double::doubleValue).average().orElse(0))
                      .setScale(1, RoundingMode.HALF_UP)
                      .doubleValue();
   }

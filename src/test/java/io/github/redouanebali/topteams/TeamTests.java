@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
-import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
 import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
+import io.github.redouanebali.topteams.model.player.PlayerStats;
 import io.github.redouanebali.topteams.model.team.Team;
 import io.github.redouanebali.topteams.service.PlayerService;
 import java.io.IOException;
@@ -36,12 +36,12 @@ public class TeamTests {
   @Test
   public void getDetailedTeamRatingByCharacteristicTest() throws IOException {
     Team team = new Team(PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class));
-    assertEquals(63, team.getRating(PlayerCharacteristics.pace));
-    assertEquals(67, team.getRating(PlayerCharacteristics.dribbling));
-    assertEquals(63, team.getRating(PlayerCharacteristics.physical));
-    assertEquals(67, team.getRating(PlayerCharacteristics.passing));
-    assertEquals(65, team.getRating(PlayerCharacteristics.shooting));
-    assertEquals(67, team.getRating(PlayerCharacteristics.dribbling));
+    assertEquals(63, team.getRating(PlayerStats.pace));
+    assertEquals(67, team.getRating(PlayerStats.dribbling));
+    assertEquals(63, team.getRating(PlayerStats.physical));
+    assertEquals(67, team.getRating(PlayerStats.passing));
+    assertEquals(65, team.getRating(PlayerStats.shooting));
+    assertEquals(67, team.getRating(PlayerStats.dribbling));
   }
 
   @Test

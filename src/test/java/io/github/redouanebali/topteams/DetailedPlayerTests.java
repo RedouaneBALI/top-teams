@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
-import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
 import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
+import io.github.redouanebali.topteams.model.player.PlayerStats;
 import io.github.redouanebali.topteams.service.PlayerService;
 import java.io.IOException;
 import java.util.Map;
@@ -22,22 +22,22 @@ public class DetailedPlayerTests {
   public void testDeserializeDetailedPlayer() throws IOException {
     DetailedPlayer player = PLAYER_SERVICE.loadPlayer("/detailed-player.json", DetailedPlayer.class);
     assertNotNull(player.getId());
-    assertNotNull(player.getCharacteristics());
-    assertFalse(player.getCharacteristics().isEmpty());
-    for (PlayerCharacteristics characteristics : PlayerCharacteristics.values()) {
-      assertTrue(player.getCharacteristics().get(characteristics) > 50);
+    assertNotNull(player.getStats());
+    assertFalse(player.getStats().isEmpty());
+    for (PlayerStats stats : PlayerStats.values()) {
+      assertTrue(player.getStats().get(stats) > 50);
     }
   }
 
   @Test
   public void testGetDetailedPlayerRating() {
     Player player = new DetailedPlayer("Player1", Map.of(
-        PlayerCharacteristics.pace, 50.0,
-        PlayerCharacteristics.defending, 55.0,
-        PlayerCharacteristics.dribbling, 60.0,
-        PlayerCharacteristics.passing, 65.0,
-        PlayerCharacteristics.physical, 70.0,
-        PlayerCharacteristics.shooting, 60.0
+        PlayerStats.pace, 50.0,
+        PlayerStats.defending, 55.0,
+        PlayerStats.dribbling, 60.0,
+        PlayerStats.passing, 65.0,
+        PlayerStats.physical, 70.0,
+        PlayerStats.shooting, 60.0
     ));
     assertEquals(60.0, player.getRating());
   }

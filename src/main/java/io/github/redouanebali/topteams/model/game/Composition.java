@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
-import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
+import io.github.redouanebali.topteams.model.player.PlayerStats;
 import io.github.redouanebali.topteams.model.team.Team;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,10 +38,10 @@ public class Composition implements Comparable<Composition> {
 
   @JsonInclude(Include.NON_NULL)
   @JsonProperty("characteristic_rating_differences")
-  public Map<PlayerCharacteristics, Double> getCharacteristicRatingDifferences() {
+  public Map<PlayerStats, Double> getCharacteristicRatingDifferences() {
     if (teamA.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)
         && teamB.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)) {
-      return Arrays.stream(PlayerCharacteristics.values())
+      return Arrays.stream(PlayerStats.values())
                    .flatMap(p -> teamB.getPlayers().stream()
                                       .map(q -> Pair.of(p, q)))
                    .map(pair -> Pair.of(
@@ -56,13 +56,13 @@ public class Composition implements Comparable<Composition> {
 
   @JsonInclude(Include.NON_DEFAULT)
   @JsonProperty("characteristic_standard_deviation")
-  public double getCharacteristicStandardDeviation() {
+  public double getStatsStandardDeviation() {
     if (teamA.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)
         && teamB.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)) {
 
       DescriptiveStatistics stats = new DescriptiveStatistics();
 
-      Arrays.stream(PlayerCharacteristics.values())
+      Arrays.stream(PlayerStats.values())
             .filter(ps -> this.getTeamA().getRating(ps) > 0 && this.getTeamB().getRating(ps) > 0)
             .map(ps -> this.getTeamA().getRating(ps) - this.getTeamB().getRating(ps))
             .forEach(stats::addValue);

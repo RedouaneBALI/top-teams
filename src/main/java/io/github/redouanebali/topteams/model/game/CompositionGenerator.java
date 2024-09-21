@@ -33,7 +33,7 @@ public class CompositionGenerator {
     return compositions.getFirst();
   }
 
-  public static Composition getBestCompositionFromCharacteristics(List<DetailedPlayer> players) {
+  public static Composition getBestCompositionFromStats(List<DetailedPlayer> players) {
     List<Composition> compositions           = new ArrayList<>();
     long              nbPossibleCombinations = getNbPossibleCombinations(players.size());
     int               i                      = 0;
@@ -46,7 +46,7 @@ public class CompositionGenerator {
     }
     // priority by standard deviation + rating difference
     return compositions.stream()
-                       .min(Comparator.comparingDouble(c -> Math.abs(c.getCharacteristicStandardDeviation()) + Math.abs(c.getRatingDifference())))
+                       .min(Comparator.comparingDouble(c -> Math.abs(c.getStatsStandardDeviation()) + Math.abs(c.getRatingDifference())))
                        .orElseThrow(() -> new IllegalStateException("No compositions generated"));
   }
 
