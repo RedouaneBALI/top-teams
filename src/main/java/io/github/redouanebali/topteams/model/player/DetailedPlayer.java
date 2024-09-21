@@ -1,5 +1,7 @@
 package io.github.redouanebali.topteams.model.player;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
@@ -22,7 +24,9 @@ public class DetailedPlayer extends Player {
 
   @Override
   public double getRating() {
-    return characteristics.values().stream().mapToDouble(Double::doubleValue).average().orElse(0);
+    return BigDecimal.valueOf(characteristics.values().stream().mapToDouble(Double::doubleValue).average().orElse(0))
+                     .setScale(1, RoundingMode.HALF_UP)
+                     .doubleValue();
   }
 
 }

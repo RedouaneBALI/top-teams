@@ -1,6 +1,5 @@
 package io.github.redouanebali.topteams.model.player;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.text.DecimalFormat;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,6 @@ public abstract class Player implements Comparable<Player> {
 
   private String id;
 
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   public abstract double getRating();
 
   @Override

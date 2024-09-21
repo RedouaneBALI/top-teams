@@ -1,8 +1,11 @@
 package io.github.redouanebali.topteams.model.team;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +26,9 @@ public class Team {
   }
 
   public double getRating() {
-    return players.stream().mapToDouble(Player::getRating).average().orElse(0.0);
+    return BigDecimal.valueOf(players.stream().mapToDouble(Player::getRating).average().orElse(0.0))
+                     .setScale(1, RoundingMode.HALF_UP)
+                     .doubleValue();
   }
 
   public double getRating(PlayerCharacteristics characteristics) {
@@ -37,6 +42,7 @@ public class Team {
     return 0.0;
   }
 
+  @JsonIgnore
   public boolean isDetailedPlayersTeam() {
     return players.stream().allMatch(p -> p instanceof DetailedPlayer);
   }

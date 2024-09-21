@@ -85,7 +85,7 @@ public class CompositionGeneratorTests {
     assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
     assertTrue(Math.abs(composition.getRatingDifference()) < 5);
     System.out.println("standard deviation = " + composition.getCharacteristicStandardDeviation());
-    System.out.println(composition.getCharacteristicRatingDifference());
+    System.out.println(composition.getCharacteristicRatingDifferences());
     System.out.println(composition);
   }
 }

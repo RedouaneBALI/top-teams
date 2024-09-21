@@ -1,9 +1,14 @@
 package io.github.redouanebali.topteams.model.game;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.model.player.PlayerCharacteristics;
 import io.github.redouanebali.topteams.model.team.Team;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,31 +28,34 @@ public class Composition implements Comparable<Composition> {
   private final Team teamA;
   private final Team teamB;
 
+  @JsonProperty("rating_difference")
   public double getRatingDifference() {
-    return (teamA.getRating() - teamB.getRating());
+    return BigDecimal.valueOf(teamA.getRating() - teamB.getRating())
+                     .setScale(1, RoundingMode.HALF_UP)
+                     .doubleValue();
   }
 
-  public Map<PlayerCharacteristics, Double> getCharacteristicRatingDifference() {
+
+  @JsonInclude(Include.NON_NULL)
+  @JsonProperty("characteristic_rating_differences")
+  public Map<PlayerCharacteristics, Double> getCharacteristicRatingDifferences() {
     if (teamA.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)
         && teamB.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)) {
-      @SuppressWarnings("unchecked")
-
-      Map<PlayerCharacteristics, Double> differences = Arrays.stream(PlayerCharacteristics.values())
-                                                             .flatMap(p -> teamB.getPlayers().stream()
-                                                                                .map(q -> Pair.of(p, q)))
-                                                             .map(pair -> Pair.of(
-                                                                 pair.getLeft(),
-                                                                 this.getTeamA().getRating(pair.getLeft()) - this.getTeamB()
-                                                                                                                 .getRating(pair.getLeft())))
-                                                             .collect(Collectors.groupingBy(Pair::getLeft,
-                                                                                            Collectors.averagingDouble(Pair::getRight)));
-
-      return differences;
+      return Arrays.stream(PlayerCharacteristics.values())
+                   .flatMap(p -> teamB.getPlayers().stream()
+                                      .map(q -> Pair.of(p, q)))
+                   .map(pair -> Pair.of(
+                       pair.getLeft(),
+                       this.getTeamA().getRating(pair.getLeft()) - this.getTeamB()
+                                                                       .getRating(pair.getLeft())))
+                   .collect(Collectors.groupingBy(Pair::getLeft,
+                                                  Collectors.averagingDouble(Pair::getRight)));
     }
     return null;
   }
 
-
+  @JsonInclude(Include.NON_DEFAULT)
+  @JsonProperty("characteristic_standard_deviation")
   public double getCharacteristicStandardDeviation() {
     if (teamA.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)
         && teamB.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)) {
@@ -58,7 +66,9 @@ public class Composition implements Comparable<Composition> {
             .filter(ps -> this.getTeamA().getRating(ps) > 0 && this.getTeamB().getRating(ps) > 0)
             .map(ps -> this.getTeamA().getRating(ps) - this.getTeamB().getRating(ps))
             .forEach(stats::addValue);
-      return stats.getStandardDeviation();
+      return BigDecimal.valueOf(stats.getStandardDeviation())
+                       .setScale(1, RoundingMode.HALF_UP)
+                       .doubleValue();
     }
     return 0.0;
   }
