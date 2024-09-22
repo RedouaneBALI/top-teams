@@ -20,7 +20,7 @@ public class CompositionGenerator {
     return new Composition(teamA, teamB);
   }
 
-  public static Composition getBestComposition(List<? extends Player> players) {
+  public static List<Composition> getNBestCompositions(List<? extends Player> players, int count) {
     List<Composition> compositions = new ArrayList<>();
     long              nbTry        = getNbPossibleCombinations(players.size());
     for (int i = 0; i < nbTry; i++) {
@@ -30,10 +30,13 @@ public class CompositionGenerator {
       }
     }
     Collections.sort(compositions);
-    return compositions.getFirst();
+    if (count >= compositions.size()) {
+      count = compositions.size() - 1;
+    }
+    return compositions.subList(0, count);
   }
 
-  public static Composition getBestCompositionFromStats(List<DetailedPlayer> players) {
+  public static List<Composition> getNBestCompositionsFromStats(List<DetailedPlayer> players, int count) {
     List<Composition> compositions           = new ArrayList<>();
     long              nbPossibleCombinations = getNbPossibleCombinations(players.size());
     int               i                      = 0;
@@ -45,9 +48,14 @@ public class CompositionGenerator {
       }
     }
     // priority by standard deviation + rating difference
-    return compositions.stream()
-                       .min(Comparator.comparingDouble(c -> Math.abs(c.getStatsStandardDeviation()) + Math.abs(c.getRatingDifference())))
-                       .orElseThrow(() -> new IllegalStateException("No compositions generated"));
+    List<Composition>
+        sortedCompositions =
+        compositions.stream().sorted(Comparator.comparingDouble(c -> Math.abs(c.getStatsStandardDeviation()) + Math.abs(c.getRatingDifference())))
+                    .toList();
+    if (count >= sortedCompositions.size()) {
+      count = sortedCompositions.size() - 1;
+    }
+    return sortedCompositions.subList(0, count);
   }
 
   public static long getNbPossibleCombinations(int N) {

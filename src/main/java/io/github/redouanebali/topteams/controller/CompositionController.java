@@ -1,7 +1,7 @@
 package io.github.redouanebali.topteams.controller;
 
+import io.github.redouanebali.topteams.dto.CompositionResponse;
 import io.github.redouanebali.topteams.exception.CompositionException;
-import io.github.redouanebali.topteams.model.game.Composition;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.service.CompositionService;
@@ -14,6 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,7 +29,7 @@ public class CompositionController {
   @ApiResponse(responseCode = "200", description = "Best composition returned")
   @ApiResponse(responseCode = "400", description = "Invalid input")
   @PostMapping("/optimize-with-overall")
-  public Composition getBestSimpleComposition(
+  public CompositionResponse getBestSimpleComposition(
       @RequestBody(description = "List of simple players", required = true,
                    content = @Content(schema = @Schema(implementation = Player.class),
                                       examples = {@io.swagger.v3.oas.annotations.media.ExampleObject(
@@ -51,9 +52,10 @@ public class CompositionController {
                                                   + "  }\n"
                                                   + "]"
                                       )}))
-      @org.springframework.web.bind.annotation.RequestBody List<Player> players) {
-    checkPlayersBody(players);
-    return compositionService.getBestComposition(players);
+      @org.springframework.web.bind.annotation.RequestBody List<Player> players,
+      @RequestParam(defaultValue = "1") int count) {
+    checkArguments(players, count);
+    return new CompositionResponse(compositionService.getNBestCompositions(players, count));
   }
 
 
@@ -64,7 +66,7 @@ public class CompositionController {
   @ApiResponse(responseCode = "200", description = "Best composition returned")
   @ApiResponse(responseCode = "400", description = "Invalid input")
   @PostMapping("/optimize-with-stats")
-  public Composition getBestComposition(
+  public CompositionResponse getBestComposition(
       @RequestBody(description = "List of detailed players", required = true,
                    content = @Content(schema = @Schema(implementation = DetailedPlayer.class),
                                       examples = {@io.swagger.v3.oas.annotations.media.ExampleObject(
@@ -115,18 +117,21 @@ public class CompositionController {
                                                   + "  }\n"
                                                   + "]"
                                       )}))
-      @org.springframework.web.bind.annotation.RequestBody List<DetailedPlayer> players) {
-    checkPlayersBody(players);
-    return compositionService.getBestCompositionWithStats(players);
+      @org.springframework.web.bind.annotation.RequestBody List<DetailedPlayer> players,
+      @RequestParam(defaultValue = "1") int count) {
+    checkArguments(players, count);
+    return new CompositionResponse(compositionService.getNBestCompositionsWithStats(players, count));
   }
 
-  private void checkPlayersBody(List<? extends Player> players) {
+  private void checkArguments(List<? extends Player> players, int count) {
     if (players == null || players.isEmpty()) {
       throw new CompositionException("Player list cannot be empty or null");
     } else if (players.size() % 2 != 0) {
       throw new CompositionException("Player count should be even");
     } else if (players.stream().anyMatch(p -> p.getRating() == 0)) {
       throw new CompositionException("All players must have a rating greater than 0");
+    } else if (count < 0 || count > 10) {
+      throw new CompositionException("count should be between 1 and 10");
     }
   }
 }

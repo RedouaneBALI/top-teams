@@ -42,6 +42,7 @@ public class Composition implements Comparable<Composition> {
     if (teamA.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)
         && teamB.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)) {
       return Arrays.stream(PlayerStats.values())
+                   .filter(ps -> this.getTeamA().getRating(ps) > 0.0 && this.getTeamB().getRating(ps) > 0.0)
                    .flatMap(p -> teamB.getPlayers().stream()
                                       .map(q -> Pair.of(p, q)))
                    .map(pair -> Pair.of(

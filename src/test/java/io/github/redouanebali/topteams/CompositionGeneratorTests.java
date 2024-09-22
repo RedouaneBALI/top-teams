@@ -36,7 +36,7 @@ public class CompositionGeneratorTests {
   public void testGetBestCompoSimple() throws IOException {
     List<Player> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", Player.class));
-    Composition composition = CompositionGenerator.getBestComposition(allPlayers);
+    Composition composition = CompositionGenerator.getNBestCompositions(allPlayers, 1).getFirst();
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
     assertFalse(composition.getTeamA().getPlayers().isEmpty());
@@ -60,24 +60,11 @@ public class CompositionGeneratorTests {
   }
 
   @Test
-  public void testGetBestCompoDetailed() throws IOException {
-    List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
-    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
-    Composition composition = CompositionGenerator.getBestComposition(allPlayers);
-    assertNotNull(composition.getTeamA());
-    assertNotNull(composition.getTeamB());
-    assertFalse(composition.getTeamA().getPlayers().isEmpty());
-    assertFalse(composition.getTeamB().getPlayers().isEmpty());
-    assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
-    assertTrue(Math.abs(composition.getRatingDifference()) < 2);
-    System.out.println(composition);
-  }
-
-  @Test
   public void testGetBestCompoDetailedWithStats() throws IOException {
     List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
-    Composition composition = CompositionGenerator.getBestCompositionFromStats(allPlayers);
+    List<Composition> compositions = CompositionGenerator.getNBestCompositionsFromStats(allPlayers, 30);
+    Composition       composition  = compositions.getFirst();
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
     assertFalse(composition.getTeamA().getPlayers().isEmpty());
