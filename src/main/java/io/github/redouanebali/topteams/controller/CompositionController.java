@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/composition")
 public class CompositionController {
 
-  @Autowired
-  private CompositionService compositionService;
+  private final CompositionService compositionService = new CompositionService();
 
   @Operation(summary = "Return the best composition based on general rating",
              description = "Generate randomly a high number of compositions and return the best one found based rating average difference.")

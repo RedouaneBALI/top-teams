@@ -47,9 +47,12 @@ jobs:
           args: >
             -Dsonar.projectKey=RedouaneBALI_top-teams
             -Dsonar.organization=redouanebali
+            -Dsonar.sources=src/main/java
+            -Dsonar.tests=src/test/java
             -Dsonar.java.binaries=target/classes
             -Dsonar.java.test.binaries=target/test-classes
             -Dsonar.junit.reportPaths=target/surefire-reports
             -Dsonar.java.coveragePlugin=jacoco
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+            -Dsonar.coverage.exclusions=**/test/**/*
             -Dsonar.qualitygate.wait=true
