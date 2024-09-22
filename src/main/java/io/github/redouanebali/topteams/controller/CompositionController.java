@@ -6,6 +6,7 @@ import io.github.redouanebali.topteams.model.player.DetailedPlayer;
 import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.service.CompositionService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -53,6 +54,7 @@ public class CompositionController {
                                                   + "]"
                                       )}))
       @org.springframework.web.bind.annotation.RequestBody List<Player> players,
+      @Parameter(description = "Number of compositions to return. Default (and minimum) is 1. Maximum is 10.")
       @RequestParam(defaultValue = "1") int count) {
     checkArguments(players, count);
     return new CompositionResponse(compositionService.getNBestCompositions(players, count));
@@ -118,6 +120,7 @@ public class CompositionController {
                                                   + "]"
                                       )}))
       @org.springframework.web.bind.annotation.RequestBody List<DetailedPlayer> players,
+      @Parameter(description = "Number of compositions to return. Default (and minimum) is 1. Maximum is 10.")
       @RequestParam(defaultValue = "1") int count) {
     checkArguments(players, count);
     return new CompositionResponse(compositionService.getNBestCompositionsWithStats(players, count));

@@ -12,6 +12,9 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class CompositionGenerator {
 
+  // X% of all the possible compositions will be generated
+  private final static double percentageOfPossibleCompoToGenerate = 0.9;
+
   public static Composition generateRandomComposition(List<? extends Player> players) {
     Collections.shuffle(players, new Random());
 
@@ -20,15 +23,22 @@ public class CompositionGenerator {
     return new Composition(teamA, teamB);
   }
 
-  public static List<Composition> getNBestCompositions(List<? extends Player> players, int count) {
-    List<Composition> compositions = new ArrayList<>();
-    long              nbTry        = getNbPossibleCombinations(players.size());
-    for (int i = 0; i < nbTry; i++) {
+  public static List<Composition> generatAllPossibleCompositions(List<? extends Player> players) {
+    List<Composition> compositions           = new ArrayList<>();
+    long              nbPossibleCombinations = getNbPossibleCombinations(players.size());
+    int               i                      = 0;
+    while (i < nbPossibleCombinations * percentageOfPossibleCompoToGenerate) {
       Composition randomComposition = generateRandomComposition(players);
       if (!compositions.contains(randomComposition)) {
         compositions.add(randomComposition);
+        i++;
       }
     }
+    return compositions;
+  }
+
+  public static List<Composition> getNBestCompositions(List<? extends Player> players, int count) {
+    List<Composition> compositions = generatAllPossibleCompositions(players);
     Collections.sort(compositions);
     if (count >= compositions.size()) {
       count = compositions.size() - 1;
@@ -37,16 +47,7 @@ public class CompositionGenerator {
   }
 
   public static List<Composition> getNBestCompositionsFromStats(List<DetailedPlayer> players, int count) {
-    List<Composition> compositions           = new ArrayList<>();
-    long              nbPossibleCombinations = getNbPossibleCombinations(players.size());
-    int               i                      = 0;
-    while (i < nbPossibleCombinations / 2) {
-      Composition randomComposition = generateRandomComposition(players);
-      if (!compositions.contains(randomComposition)) {
-        compositions.add(randomComposition);
-        i++;
-      }
-    }
+    List<Composition> compositions = generatAllPossibleCompositions(players);
     // priority by standard deviation + rating difference
     List<Composition>
         sortedCompositions =
