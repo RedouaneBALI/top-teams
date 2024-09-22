@@ -44,7 +44,7 @@ public class Team {
 
   @JsonIgnore
   public boolean isDetailedPlayersTeam() {
-    return players.stream().allMatch(p -> p instanceof DetailedPlayer);
+    return players.stream().allMatch(DetailedPlayer.class::isInstance);
   }
 
   @Override
@@ -68,12 +68,12 @@ public class Team {
 
   @Override
   public String toString() {
-    String result = "";
+    StringBuilder bld = new StringBuilder();
     for (Player p : players) {
-      result += p;
-      result += " ";
+      bld.append(p);
+      bld.append(" ");
     }
-    return result;
+    return bld.toString();
   }
 
   public void addPlayer(Player player) {

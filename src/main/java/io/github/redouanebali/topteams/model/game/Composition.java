@@ -40,8 +40,7 @@ public class Composition implements Comparable<Composition> {
   @JsonInclude(Include.NON_NULL)
   @JsonProperty("characteristic_rating_differences")
   public Map<PlayerStats, Double> getCharacteristicRatingDifferences() {
-    if (teamA.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)
-        && teamB.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)) {
+    if (isDetailedPlayersCompo()) {
       return Arrays.stream(PlayerStats.values())
                    .filter(ps -> this.getTeamA().getRating(ps) > 0.0 && this.getTeamB().getRating(ps) > 0.0)
                    .flatMap(p -> teamB.getPlayers().stream()
@@ -59,8 +58,7 @@ public class Composition implements Comparable<Composition> {
   @JsonInclude(Include.NON_DEFAULT)
   @JsonProperty("characteristic_standard_deviation")
   public double getStatsStandardDeviation() {
-    if (teamA.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)
-        && teamB.getPlayers().stream().allMatch(p -> p instanceof DetailedPlayer)) {
+    if (isDetailedPlayersCompo()) {
 
       DescriptiveStatistics stats = new DescriptiveStatistics();
 
@@ -75,6 +73,11 @@ public class Composition implements Comparable<Composition> {
       }
     }
     return 0.0;
+  }
+
+  public boolean isDetailedPlayersCompo() {
+    return (teamA.getPlayers().stream().allMatch(DetailedPlayer.class::isInstance)
+            && teamB.getPlayers().stream().allMatch(DetailedPlayer.class::isInstance));
   }
 
   @Override

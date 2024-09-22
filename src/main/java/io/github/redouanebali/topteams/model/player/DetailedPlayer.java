@@ -2,7 +2,7 @@ package io.github.redouanebali.topteams.model.player;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class DetailedPlayer extends Player {
 
   @Getter
-  private Map<PlayerStats, Double> stats = new HashMap<>();
+  private Map<PlayerStats, Double> stats = new EnumMap<>(PlayerStats.class);
 
   public DetailedPlayer(String id, Map<PlayerStats, Double> stats) {
     super(id, 0.0);

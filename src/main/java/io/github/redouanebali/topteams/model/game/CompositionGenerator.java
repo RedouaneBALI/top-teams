@@ -59,11 +59,11 @@ public class CompositionGenerator {
     return sortedCompositions.subList(0, count);
   }
 
-  public static long getNbPossibleCombinations(int N) {
-    if (N % 2 != 0) {
+  public static long getNbPossibleCombinations(int n) {
+    if (n % 2 != 0) {
       throw new IllegalArgumentException("player count should be even.");
     }
-    long binomialCoefficient = CombinatoricsUtils.binomialCoefficient(N, N / 2);
+    long binomialCoefficient = CombinatoricsUtils.binomialCoefficient(n, n / 2);
     return binomialCoefficient / 2;
   }
 
