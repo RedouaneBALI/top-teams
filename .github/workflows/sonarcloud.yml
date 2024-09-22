@@ -22,8 +22,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=your_project_key
-            -Dsonar.organization=your_organization
+            -Dsonar.projectKey=RedouaneBALI_top-teams
+            -Dsonar.organization=redouanebali
             -Dsonar.qualitygate.wait=true
             -Dsonar.scm.provider=git
             -Dsonar.branch.autoconfig.disabled=true
