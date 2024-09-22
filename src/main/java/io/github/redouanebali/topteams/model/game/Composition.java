@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -111,5 +112,10 @@ public class Composition implements Comparable<Composition> {
     Composition composition = (Composition) o;
     return (composition.getTeamA().equals(this.getTeamA()) && composition.getTeamB().equals(this.getTeamB())
             || composition.getTeamA().equals(this.getTeamB()) && composition.getTeamB().equals(this.getTeamA()));
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.teamA) + Objects.hash(this.teamB);
   }
 }
