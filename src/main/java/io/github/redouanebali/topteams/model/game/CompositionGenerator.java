@@ -13,7 +13,7 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 public class CompositionGenerator {
 
   // X% of all the possible compositions will be generated
-  private final static double percentageOfPossibleCompoToGenerate = 0.9;
+  private final static double PERCENTAGE_OF_POSSIBLE_COMPO_TO_GENERATE = 0.9;
 
   public static Composition generateRandomComposition(List<? extends Player> players) {
     Collections.shuffle(players, new Random());
@@ -27,7 +27,7 @@ public class CompositionGenerator {
     List<Composition> compositions           = new ArrayList<>();
     long              nbPossibleCombinations = getNbPossibleCombinations(players.size());
     int               i                      = 0;
-    while (i < nbPossibleCombinations * percentageOfPossibleCompoToGenerate) {
+    while (i < nbPossibleCombinations * PERCENTAGE_OF_POSSIBLE_COMPO_TO_GENERATE) {
       Composition randomComposition = generateRandomComposition(players);
       if (!compositions.contains(randomComposition)) {
         compositions.add(randomComposition);

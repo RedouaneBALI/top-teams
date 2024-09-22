@@ -1,11 +1,11 @@
 {
   "id": "playerA",
   "stats": {
-    "pace": 90,
-    "shooting": 80,
-    "passing": 85,
-    "dribbling": 78,
-    "defending": 70,
-    "physical": 88
+    "PAC": 90,
+    "SHO": 80,
+    "PAS": 85,
+    "DRI": 78,
+    "DEF": 70,
+    "PHY": 88
   }
 }

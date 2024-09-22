@@ -36,12 +36,12 @@ public class TeamTests {
   @Test
   public void getDetailedTeamRatingByCharacteristicTest() throws IOException {
     Team team = new Team(PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class));
-    assertEquals(63, team.getRating(PlayerStats.pace));
-    assertEquals(67, team.getRating(PlayerStats.dribbling));
-    assertEquals(63, team.getRating(PlayerStats.physical));
-    assertEquals(67, team.getRating(PlayerStats.passing));
-    assertEquals(65, team.getRating(PlayerStats.shooting));
-    assertEquals(67, team.getRating(PlayerStats.dribbling));
+    assertEquals(63, team.getRating(PlayerStats.PAC));
+    assertEquals(67, team.getRating(PlayerStats.DRI));
+    assertEquals(63, team.getRating(PlayerStats.PHY));
+    assertEquals(67, team.getRating(PlayerStats.PAS));
+    assertEquals(65, team.getRating(PlayerStats.SHO));
+    assertEquals(67, team.getRating(PlayerStats.DRI));
   }
 
   @Test

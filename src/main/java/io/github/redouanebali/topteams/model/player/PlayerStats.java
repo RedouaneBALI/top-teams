@@ -6,12 +6,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PlayerStats {
 
-  pace("PAC"),
-  shooting("SHO"),
-  passing("PAS"),
-  dribbling("DRI"),
-  defending("DEF"),
-  physical("PHY");
+  PAC("PAC"),
+  SHO("SHO"),
+  PAS("PAS"),
+  DRI("DRI"),
+  DEF("DEF"),
+  PHY("PHY");
 
   @Getter
   private String name;

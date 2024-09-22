@@ -2,56 +2,56 @@
   {
     "id": "playerA",
     "stats": {
-      "pace": 50,
-      "shooting": 60,
-      "passing": 70,
-      "dribbling": 70,
-      "defending": 60,
-      "physical": 50
+      "PAC": 50,
+      "SHO": 60,
+      "PAS": 70,
+      "DRI": 70,
+      "DEF": 60,
+      "PHY": 50
     }
   },
   {
     "id": "playerB",
     "stats": {
-      "pace": 60,
-      "shooting": 60,
-      "passing": 60,
-      "dribbling": 60,
-      "defending": 60,
-      "physical": 60
+      "PAC": 60,
+      "SHO": 60,
+      "PAS": 60,
+      "DRI": 60,
+      "DEF": 60,
+      "PHY": 60
     }
   },
   {
     "id": "playerC",
     "stats": {
-      "pace": 70,
-      "shooting": 70,
-      "passing": 70,
-      "dribbling": 70,
-      "defending": 70,
-      "physical": 70
+      "PAC": 70,
+      "SHO": 70,
+      "PAS": 70,
+      "DRI": 70,
+      "DEF": 70,
+      "PHY": 70
     }
   },
   {
     "id": "playerD",
     "stats": {
-      "pace": 70,
-      "shooting": 70,
-      "passing": 70,
-      "dribbling": 70,
-      "defending": 70,
-      "physical": 70
+      "PAC": 70,
+      "SHO": 70,
+      "PAS": 70,
+      "DRI": 70,
+      "DEF": 70,
+      "PHY": 70
     }
   },
   {
     "id": "playerE",
     "stats": {
-      "pace": 65,
-      "shooting": 65,
-      "passing": 65,
-      "dribbling": 65,
-      "defending": 65,
-      "physical": 65
+      "PAC": 65,
+      "SHO": 65,
+      "PAS": 65,
+      "DRI": 65,
+      "DEF": 65,
+      "PHY": 65
     }
   }
 ]

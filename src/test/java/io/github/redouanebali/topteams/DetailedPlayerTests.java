@@ -32,12 +32,12 @@ public class DetailedPlayerTests {
   @Test
   public void testGetDetailedPlayerRating() {
     Player player = new DetailedPlayer("Player1", Map.of(
-        PlayerStats.pace, 50.0,
-        PlayerStats.defending, 55.0,
-        PlayerStats.dribbling, 60.0,
-        PlayerStats.passing, 65.0,
-        PlayerStats.physical, 70.0,
-        PlayerStats.shooting, 60.0
+        PlayerStats.PAC, 50.0,
+        PlayerStats.DEF, 55.0,
+        PlayerStats.DRI, 60.0,
+        PlayerStats.PAS, 65.0,
+        PlayerStats.PHY, 70.0,
+        PlayerStats.SHO, 60.0
     ));
     assertEquals(60.0, player.getRating());
   }
