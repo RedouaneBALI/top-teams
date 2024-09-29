@@ -12,6 +12,7 @@ import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.model.player.PlayerDataLoader;
 import io.github.redouanebali.topteams.service.PlayerService;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -23,57 +24,107 @@ public class CompositionGeneratorTests {
   public void testGenerateRandomCompoSimple() throws IOException {
     List<Player> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", Player.class));
-    Composition composition = CompositionGenerator.generateRandomComposition(allPlayers);
+    Composition composition = CompositionGenerator.generateRandomComposition(allPlayers, false, false);
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
     assertFalse(composition.getTeamA().getPlayers().isEmpty());
     assertFalse(composition.getTeamB().getPlayers().isEmpty());
     assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
-    System.out.println(composition);
   }
 
   @Test
   public void testGetBestCompoSimple() throws IOException {
     List<Player> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", Player.class));
-    Composition composition = CompositionGenerator.getNBestCompositions(allPlayers, 1).getFirst();
+    List<Composition> compositions = CompositionGenerator.getNBestCompositions(allPlayers, 30, false, false);
+    assertTrue(Math.abs(compositions.getFirst().getRatingDifference()) < Math.abs(compositions.getLast().getRatingDifference()));
+    Composition composition = compositions.getFirst();
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
     assertFalse(composition.getTeamA().getPlayers().isEmpty());
     assertFalse(composition.getTeamB().getPlayers().isEmpty());
     assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
-    assertEquals(0, composition.getRatingDifference());
-    System.out.println(composition);
+    assertEquals(0, composition.getRatingDifference(), 0.2);
   }
 
   @Test
-  public void testGenerateRandomCompoDetailed() throws IOException {
+  public void testGenerateRandomCompoWithSplitBest() throws IOException {
+    List<Player> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
+    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", Player.class));
+    for (int i = 0; i < 10; i++) {
+      Composition composition = CompositionGenerator.generateRandomComposition(allPlayers, true, false);
+      allPlayers.sort(Collections.reverseOrder());
+      assertTrue((composition.getTeamA().getPlayers().contains(allPlayers.get(0))
+                  && composition.getTeamB().getPlayers().contains(allPlayers.get(1)))
+                 || (composition.getTeamB().getPlayers().contains(allPlayers.get(0))
+                     && composition.getTeamA().getPlayers().contains(allPlayers.get(1))));
+    }
+  }
+
+  @Test
+  public void testGenerateRandomCompoWithSplitWeakest() throws IOException {
+    List<Player> allPlayers = PLAYER_SERVICE.loadPlayers("/simple-players.json", Player.class);
+    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/simple-players2.json", Player.class));
+    for (int i = 0; i < 10; i++) {
+      Composition composition = CompositionGenerator.generateRandomComposition(allPlayers, false, true);
+      allPlayers.sort(Collections.reverseOrder());
+      assertTrue((composition.getTeamA().getPlayers().contains(allPlayers.getLast())
+                  && composition.getTeamB().getPlayers().contains(allPlayers.get(allPlayers.size() - 2)))
+                 || (composition.getTeamB().getPlayers().contains(allPlayers.getLast())
+                     && composition.getTeamA().getPlayers().contains(allPlayers.get(allPlayers.size() - 2))));
+    }
+  }
+
+  @Test
+  public void testGenerateRandomCompoWithStats() throws IOException {
     List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
-    Composition composition = CompositionGenerator.generateRandomComposition(allPlayers);
+    Composition composition = CompositionGenerator.generateRandomComposition(allPlayers, false, false);
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
     assertFalse(composition.getTeamA().getPlayers().isEmpty());
     assertFalse(composition.getTeamB().getPlayers().isEmpty());
     assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
-    System.out.println(composition);
   }
+
+  @Test
+  public void testGenerateRandomCompoWithStatsSplitBest() throws IOException {
+    List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
+    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
+    Composition composition = CompositionGenerator.generateRandomComposition(allPlayers, true, false);
+    allPlayers.sort(Collections.reverseOrder());
+    assertTrue((composition.getTeamA().getPlayers().contains(allPlayers.get(0))
+                && composition.getTeamB().getPlayers().contains(allPlayers.get(1)))
+               || (composition.getTeamB().getPlayers().contains(allPlayers.get(0))
+                   && composition.getTeamA().getPlayers().contains(allPlayers.get(1))));
+  }
+
+  @Test
+  public void testGenerateRandomCompoWithStatsSplitWeakest() throws IOException {
+    List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
+    allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
+    Composition composition = CompositionGenerator.generateRandomComposition(allPlayers, false, true);
+    allPlayers.sort(Collections.reverseOrder());
+    assertTrue((composition.getTeamA().getPlayers().contains(allPlayers.getLast())
+                && composition.getTeamB().getPlayers().contains(allPlayers.get(allPlayers.size() - 2)))
+               || (composition.getTeamB().getPlayers().contains(allPlayers.getLast())
+                   && composition.getTeamA().getPlayers().contains(allPlayers.get(allPlayers.size() - 2))));
+  }
+
 
   @Test
   public void testGetBestCompoDetailedWithStats() throws IOException {
     List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
-    List<Composition> compositions = CompositionGenerator.getNBestCompositionsFromStats(allPlayers, 30);
-    Composition       composition  = compositions.getFirst();
+    List<Composition> compositions = CompositionGenerator.getNBestCompositionsFromStats(allPlayers, 30, false, false);
+    assertTrue(Math.abs(compositions.getFirst().getRatingDifference()) < Math.abs(compositions.getLast().getRatingDifference()));
+    Composition composition = compositions.getFirst();
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
     assertFalse(composition.getTeamA().getPlayers().isEmpty());
     assertFalse(composition.getTeamB().getPlayers().isEmpty());
     assertEquals(composition.getTeamA().getPlayers().size(), composition.getTeamB().getPlayers().size());
     assertTrue(Math.abs(composition.getRatingDifference()) < 5);
-    System.out.println("standard deviation = " + composition.getStatsStandardDeviation());
-    System.out.println(composition.getCharacteristicRatingDifferences());
-    System.out.println(composition);
   }
 
 }

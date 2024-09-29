@@ -53,9 +53,14 @@ public class CompositionController {
                                       )}))
       @org.springframework.web.bind.annotation.RequestBody List<Player> players,
       @Parameter(description = "Number of compositions to return. Default (and minimum) is 1. Maximum is 10.")
-      @RequestParam(defaultValue = "1") int count) {
+      @RequestParam(defaultValue = "1") int count,
+      @Parameter(description = "Split of the best players in each team")
+      @RequestParam(defaultValue = "false") boolean splitBestPlayers,
+      @Parameter(description = "Split of the weakest players in each team")
+      @RequestParam(defaultValue = "false") boolean splitWeakestPlayers
+  ) {
     checkArguments(players, count);
-    return new CompositionResponse(compositionService.getNBestCompositions(players, count));
+    return new CompositionResponse(compositionService.getNBestCompositions(players, count, splitBestPlayers, splitWeakestPlayers));
   }
 
 
@@ -119,9 +124,13 @@ public class CompositionController {
                                       )}))
       @org.springframework.web.bind.annotation.RequestBody List<DetailedPlayer> players,
       @Parameter(description = "Number of compositions to return. Default (and minimum) is 1. Maximum is 10.")
-      @RequestParam(defaultValue = "1") int count) {
+      @RequestParam(defaultValue = "1") int count,
+      @Parameter(description = "Split of the best players in each team")
+      @RequestParam(defaultValue = "false") boolean splitBestPlayers,
+      @Parameter(description = "Split of the weakest players in each team")
+      @RequestParam(defaultValue = "false") boolean splitWeakestPlayers) {
     checkArguments(players, count);
-    return new CompositionResponse(compositionService.getNBestCompositionsWithStats(players, count));
+    return new CompositionResponse(compositionService.getNBestCompositionsWithStats(players, count, splitBestPlayers, splitWeakestPlayers));
   }
 
   private void checkArguments(List<? extends Player> players, int count) {

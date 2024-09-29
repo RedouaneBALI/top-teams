@@ -1,12 +1,17 @@
 package io.github.redouanebali.topteams;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.redouanebali.topteams.model.game.Composition;
 import io.github.redouanebali.topteams.model.player.DetailedPlayer;
+import io.github.redouanebali.topteams.model.player.Player;
 import io.github.redouanebali.topteams.model.player.PlayerStats;
 import io.github.redouanebali.topteams.model.team.Team;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +59,22 @@ public class CompositionTests {
 
     double expectedStandardDeviation = calculateExpectedStandardDeviation();
     assertEquals(expectedStandardDeviation, composition.getStatsStandardDeviation(), 0.1);
+  }
+
+  @Test
+  public void testComparable() {
+    Composition       composition1 = new Composition(new Team(new Player("A", 60)), new Team(new Player("B", 60)));
+    Composition       composition2 = new Composition(new Team(new Player("A", 60)), new Team(new Player("B", 65)));
+    Composition       composition3 = new Composition(new Team(new Player("A", 60)), new Team(new Player("B", 75)));
+    Composition       composition4 = new Composition(new Team(new Player("A", 59)), new Team(new Player("B", 60)));
+    Composition       composition5 = new Composition(new Team(new Player("A", 49)), new Team(new Player("B", 60)));
+    List<Composition> compositions = Arrays.asList(composition1, composition2, composition3, composition4, composition5);
+    Collections.shuffle(compositions);
+    Collections.sort(compositions);
+    assertTrue(Math.abs(compositions.get(0).getRatingDifference()) < Math.abs(compositions.get(1).getRatingDifference())
+               && Math.abs(compositions.get(1).getRatingDifference()) < Math.abs(compositions.get(2).getRatingDifference())
+               && Math.abs(compositions.get(2).getRatingDifference()) < Math.abs(compositions.get(3).getRatingDifference())
+               && Math.abs(compositions.get(3).getRatingDifference()) < Math.abs(compositions.get(4).getRatingDifference()));
   }
 
   private DetailedPlayer createDetailedPlayer(String id, Double... stats) {
