@@ -10,12 +10,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class Team {
 
   @Getter
-  private final Set<Player> players;
+  private Set<Player> players;
 
   public Team(Player... players) {
     this.players = new HashSet<>(Set.of(players));

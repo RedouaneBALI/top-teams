@@ -53,15 +53,15 @@ public class Composition implements Comparable<Composition> {
                        Pair::getLeft,
                        Collectors.collectingAndThen(
                            Collectors.averagingDouble(Pair::getRight),
-                           this::roundToTwoDecimalPlaces
+                           this::roundToOneDecimalPlace
                        )
                    ));
     }
     return null;
   }
 
-  private double roundToTwoDecimalPlaces(double value) {
-    return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
+  private double roundToOneDecimalPlace(double value) {
+    return new BigDecimal(value).setScale(1, RoundingMode.HALF_UP).doubleValue();
   }
 
   @JsonInclude(Include.NON_DEFAULT)
@@ -131,4 +131,12 @@ public class Composition implements Comparable<Composition> {
   public int hashCode() {
     return Objects.hash(this.teamA) + Objects.hash(this.teamB);
   }
+
+  public double getPrediction(final double kf) {
+    if (kf < 0) {
+      throw new IllegalArgumentException("kf argument should be positive");
+    }
+    return this.getRatingDifference() / kf;
+  }
+
 }
