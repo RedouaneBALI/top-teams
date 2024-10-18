@@ -1,5 +1,6 @@
 package io.github.redouanebali.topteams.model.game;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -47,12 +48,20 @@ public class Composition implements Comparable<Composition> {
                                       .map(q -> Pair.of(p, q)))
                    .map(pair -> Pair.of(
                        pair.getLeft(),
-                       this.getTeamA().getRating(pair.getLeft()) - this.getTeamB()
-                                                                       .getRating(pair.getLeft())))
-                   .collect(Collectors.groupingBy(Pair::getLeft,
-                                                  Collectors.averagingDouble(Pair::getRight)));
+                       this.getTeamA().getRating(pair.getLeft()) - this.getTeamB().getRating(pair.getLeft())))
+                   .collect(Collectors.groupingBy(
+                       Pair::getLeft,
+                       Collectors.collectingAndThen(
+                           Collectors.averagingDouble(Pair::getRight),
+                           this::roundToTwoDecimalPlaces
+                       )
+                   ));
     }
     return null;
+  }
+
+  private double roundToTwoDecimalPlaces(double value) {
+    return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
   }
 
   @JsonInclude(Include.NON_DEFAULT)
@@ -75,6 +84,7 @@ public class Composition implements Comparable<Composition> {
     return 0.0;
   }
 
+  @JsonIgnore
   public boolean isDetailedPlayersCompo() {
     return (teamA.getPlayers().stream().allMatch(DetailedPlayer.class::isInstance)
             && teamB.getPlayers().stream().allMatch(DetailedPlayer.class::isInstance));

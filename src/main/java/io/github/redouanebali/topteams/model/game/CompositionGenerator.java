@@ -95,7 +95,7 @@ public class CompositionGenerator {
     if (splitWeakestPlayers) {
       binomialCoefficient /= 2;
     }
-    return 1 + binomialCoefficient / 2;
+    return binomialCoefficient / 2;
   }
 
 }
