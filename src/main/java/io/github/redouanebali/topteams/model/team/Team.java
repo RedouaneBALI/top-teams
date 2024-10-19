@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Team {
 
   @Getter
-  private Set<Player> players;
+  private Set<Player> players = new HashSet<>();
 
   public Team(Player... players) {
     this.players = new HashSet<>(Set.of(players));

@@ -25,7 +25,7 @@ public class CompositionController {
 
   private final CompositionService compositionService = new CompositionService();
 
-  @Operation(summary = "Return the best composition based on general rating",
+  @Operation(summary = "Return the best composition based on general rating only",
              description = "Generate randomly a high number of compositions and return the best one found based rating average difference.")
   @ApiResponse(responseCode = "200", description = "Best composition returned")
   @ApiResponse(responseCode = "400", description = "Invalid input")

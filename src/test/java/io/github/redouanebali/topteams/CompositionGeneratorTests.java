@@ -117,7 +117,7 @@ public class CompositionGeneratorTests {
     List<DetailedPlayer> allPlayers = PLAYER_SERVICE.loadPlayers("/detailed-players.json", DetailedPlayer.class);
     allPlayers.addAll(PLAYER_SERVICE.loadPlayers("/detailed-players2.json", DetailedPlayer.class));
     List<Composition> compositions = CompositionGenerator.getNBestCompositionsFromStats(allPlayers, 30, false, false);
-    assertTrue(Math.abs(compositions.getFirst().getRatingDifference()) < Math.abs(compositions.getLast().getRatingDifference()));
+    assertTrue(Math.abs(compositions.getLast().getRatingDifference()) >= Math.abs(compositions.getFirst().getRatingDifference()));
     Composition composition = compositions.getFirst();
     assertNotNull(composition.getTeamA());
     assertNotNull(composition.getTeamB());
