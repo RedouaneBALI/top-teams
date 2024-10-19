@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Rating Update", description = "Update the player ratings following a game")
 @RequestMapping("/game")
-public class RatingController {
+public class RatingUpdateController {
 
   private final RatingCalculatorService ratingCalculatorService = new RatingCalculatorService();
 
@@ -56,8 +58,7 @@ public class RatingController {
                                                                       "id": "playerJ",
                                                                       "rating": 90.0
                                                                   }
-                                                              ],
-                                                              "rating": 70.2
+                                                              ]
                                                           },
                                                           "teamB": {
                                                               "players": [
@@ -81,8 +82,7 @@ public class RatingController {
                                                                       "id": "playerE",
                                                                       "rating": 90.0
                                                                   }
-                                                              ],
-                                                              "rating": 70.0
+                                                              ]
                                                           }\
                                                       }"""
                                       )}))
@@ -90,11 +90,13 @@ public class RatingController {
       @Parameter(description = "Number of goals scored by the team A")
       @RequestParam(defaultValue = "0") int scoreA,
       @Parameter(description = "Number of goals scored by the team B")
-      @RequestParam(defaultValue = "0") int scoreB
+      @RequestParam(defaultValue = "0") int scoreB,
+      @Parameter(description = "Coefficient factor")
+      @RequestParam(defaultValue = "1") int kf
 
   ) {
     checkArguments(composition, scoreA, scoreB);
-    return ratingCalculatorService.getRatingUpdates(new Game(composition, new Score(scoreA, scoreB)), 1);
+    return ratingCalculatorService.getRatingUpdates(new Game(composition, new Score(scoreA, scoreB)), kf);
   }
 
 
